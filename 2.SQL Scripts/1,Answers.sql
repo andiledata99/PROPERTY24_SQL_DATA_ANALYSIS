@@ -12,13 +12,13 @@ FROM Data_Property24;
 
 --2. How many properties are listed in each province?
 
-SELECT DISTINCT PROVINCE,COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
+SELECT PROVINCE,COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --3. How many properties are listed in each city?
 
-SELECT DISTINCT CITY,COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
+SELECT  CITY,COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
 FROM Data_Property24
 GROUP BY CITY;
 
@@ -55,9 +55,10 @@ WHERE PROVINCE='gauteng';
 
 --9. How many properties per province have floor size greater than 200?
 
-SELECT COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
+SELECT PROVINCE, COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
 FROM Data_Property24
-WHERE FLOOR_SIZE>200;
+WHERE FLOOR_SIZE>200
+GROUP BY PROVINCE;
 
 --10. How many distinct provinces are in the table?
 
@@ -69,61 +70,61 @@ FROM Data_Property24;
 
 --11. What is the total value of all properties combined?
 
-SELECT SUM(PROPERTY_PRICE) AS TOTAL_VALUE
+SELECT SUM(CAST(PROPERTY_PRICE  AS bigint)) AS TOTAL_VALUE_OF_PROPERTIES
 FROM Data_Property24;
 
 --12. What is the total property value per province?
 
-SELECT SUM(PROPERTY_PRICE) AS TOTAL_VALUE
+SELECT PROVINCE,SUM(CAST(PROPERTY_PRICE AS bigint)) AS TOTAL_VALUE
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 
 --13. What is the total property value per city?
 
-SELECT SUM(PROPERTY_PRICE) AS TOTAL_VALUE
+SELECT CITY, SUM(CAST(PROPERTY_PRICE AS bigint)) AS TOTAL_VALUE
 FROM Data_Property24
 GROUP BY CITY;
 
 --14. What is the total monthly repayment for all properties?
 
-SELECT SUM(Monthly_Repayment) AS TOTAL_VALUE
+SELECT SUM(CAST(Monthly_Repayment AS bigint)) AS TOTAL_VALUE_OF_MONTHLY_REPAYMENT
 FROM Data_Property24;
 
 
 --15. What is the total monthly repayment per province?
 
-SELECT SUM(PROPERTY_PRICE) AS TOTAL_VALUE
+SELECT PROVINCE,SUM(CAST(MONTHLY_REPAYMENT AS bigint)) AS TOTAL_MONTHLY_REPAYMENT
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --16. What is the total once-off cost for all properties?
 
-SELECT SUM(Total_Once_off_Costs) AS TOTAL_VALUE
+SELECT SUM(CAST(Total_Once_off_Costs AS bigint)) AS TOTAL_ONCE_OF_COSTS
 FROM Data_Property24;
 
 --17. What is the total once-off cost per province?
 
-SELECT SUM(Total_Once_off_Costs) AS TOTAL_VALUE
+SELECT PROVINCE,SUM(CAST(Total_Once_off_Costs AS bigint))AS TOTAL_ONCE_OFF_COSTS_PER_PROVINCE 
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --18. What is the total property value for Gauteng?
 
-SELECT SUM(PROPERTY_PRICE) AS TOTAL_VALUE
+SELECT SUM(CAST(PROPERTY_PRICE AS bigint)) AS TOTAL_PROPERTY_VALUE
 FROM Data_Property24
 WHERE PROVINCE ='gauteng';
 
 --19. What is the total property value for properties priced above R4,000,000?
 
-SELECT SUM(PROPERTY_PRICE) AS TOTAL_VALUE
+SELECT SUM(CAST(PROPERTY_PRICE AS bigint)) AS TOTAL_VALUE
 FROM Data_Property24
 WHERE PROPERTY_PRICE>4000000;
 
 
 --20. What is the total minimum gross monthly income required per province?
 
-SELECT PROVINCE, SUM(Min_Gross_Monthly_Income) AS TOTAL_VALUE
+SELECT PROVINCE, SUM(Min_Gross_Monthly_Income) AS TOTAL_MINIMUM_GROSS_MONTHLY_INCOME 
 FROM Data_Property24
 GROUP BY PROVINCE;
 
@@ -132,37 +133,37 @@ GROUP BY PROVINCE;
 
 --21. What is the average property price overall?
 
-SELECT  AVG(PROPERTY_PRICE) AS AVERAGE_PRICE 
+SELECT  AVG(CAST(PROPERTY_PRICE AS bigint))AS OVERALL_AVERAGE_PRICE 
 FROM Data_Property24;
 
 --22. What is the average property price per province?
 
-SELECT PROVINCE, AVG(PROPERTY_PRICE) AS AVERAGE_PRICE 
+SELECT PROVINCE, AVG(CAST(PROPERTY_PRICE AS bigint)) AS PROVINCE_AVERAGE_PRICE 
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --23. What is the average property price per city?
 
-SELECT CITY, AVG(PROPERTY_PRICE) AS AVERAGE_PRICE 
+SELECT CITY, AVG(CAST(PROPERTY_PRICE AS bigint)) AS CITY_AVERAGE_PRICE 
 FROM Data_Property24
 GROUP BY CITY;
 
 
 --24. What is the average number of bedrooms per province?
 
-SELECT AVG(BEDROOMS) AS AVERAGE_BEDROOM_QUANTITY
+SELECT PROVINCE, AVG(CAST(BEDROOMS AS int)) AS AVERAGE_BEDROOM_QUANTITY
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --25. What is the average number of bathrooms per province?
 
-SELECT AVG(BATHROOMS) AS AVERAGE_BATHROOM_QUANTITY
+SELECT PROVINCE, AVG(CAST(BATHROOMS AS int)) AS AVERAGE_NUMBERT_OF_BATHROOMS
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --26. What is the average floor size per province?
 
-SELECT AVG(FLOOR_SIZE) AS AVERAGE_FLOOR_SIZE
+SELECT PROVINCE, AVG(FLOOR_SIZE) AS AVERAGE_FLOOR_SIZE
 FROM Data_Property24
 GROUP BY PROVINCE;
 
@@ -174,7 +175,7 @@ GROUP BY PROVINCE;
 
 --28. What is the average once-off cost per province?
 
-SELECT PROVINCE,AVG(Total_Once_off_Costs) AS AVERAGE_ONCE_OFF_COST
+SELECT PROVINCE,AVG(CAST(Total_Once_off_Costs AS bigint)) AS AVERAGE_ONCE_OFF_COST
 FROM Data_Property24
 GROUP BY PROVINCE;
 
@@ -188,7 +189,7 @@ GROUP BY PROVINCE;
 
 --30. What is the average property price for properties above R3,000,000?
 
-SELECT AVG(PROPERTY_PRICE) AS AVERAGE_PROPERTY_PRICE  
+SELECT AVG(CAST(PROPERTY_PRICE AS bigint)) AS AVERAGE_PROPERTY_PRICE  
 FROM Data_Property24
 WHERE PROPERTY_PRICE>3000000;
 
@@ -197,16 +198,23 @@ WHERE PROPERTY_PRICE>3000000;
 
 --31. Which province has the highest average property price?
 
-SELECT TOP 1 PROVINCE,
-AVG(PROPERTY_PRICE)
+SELECT TOP 1 PROVINCE ,
+AVG(CAST(PROPERTY_PRICE AS bigint))AS HIGHEST_AVERAGE_PROPERTY_PRICE
 FROM Data_Property24
 GROUP BY PROVINCE;
 
 --32. Which province has the lowest average property price?
 
-
+SELECT TOP 1 PROVINCE ,
+AVG(CAST(PROPERTY_PRICE AS bigint))AS LOWEST_AVERAGE_PROPERTY_PRICE
+FROM Data_Property24
+GROUP BY PROVINCE 
+ORDER BY LOWEST_AVERAGE_PROPERTY_PRICE ASC;
 
 --33. Which city has the highest total property value?
+
+
+
 --34. Which city has the lowest average property price?
 --35. How many properties per province are priced above R2,000,000?
 --36. What is the average floor size per province for properties above R3,000,000?
