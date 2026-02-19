@@ -213,12 +213,60 @@ ORDER BY LOWEST_AVERAGE_PROPERTY_PRICE ASC;
 
 --33. Which city has the highest total property value?
 
-
+ SELECT TOP 1 CITY, SUM(CAST(PROPERTY_PRICE AS bigint)) AS HIGHEST_TOTAL_VALUE 
+ FROM Data_Property24
+GROUP BY CITY
+ORDER BY  HIGHEST_TOTAL_VALUE DESC;
 
 --34. Which city has the lowest average property price?
+
+ SELECT TOP 1 CITY, SUM(CAST(PROPERTY_PRICE AS bigint)) AS LOWEST_TOTAL_VALUE 
+ FROM Data_Property24
+GROUP BY CITY
+ORDER BY  LOWEST_TOTAL_VALUE ASC;
+
+
 --35. How many properties per province are priced above R2,000,000?
+
+SELECT PROVINCE,COUNT(PROPERTY_ID) AS PROPERTIES_PER_PROVINCE 
+FROM  Data_Property24
+WHERE PROPERTY_PRICE>2000000
+GROUP BY PROVINCE;
+
 --36. What is the average floor size per province for properties above R3,000,000?
+
+SELECT PROVINCE,AVG(FLOOR_SIZE) AS AVERAGE_FLOOR_SIZE 
+FROM  Data_Property24
+WHERE PROPERTY_PRICE>3000000
+GROUP BY PROVINCE;
+
 --37. What is the total property value per province for properties with 3 or more bedrooms?
+
+SELECT PROVINCE, SUM(CAST(PROPERTY_PRICE AS bigint)) AS TOTAL_PROPERTY_VALUE 
+FROM  Data_Property24
+WHERE BEDROOMS>=3
+GROUP BY PROVINCE;
+
+
 --38. What is the average monthly repayment per province for properties above R4,000,000?
+
+
+SELECT PROVINCE, AVG( Monthly_Repayment) AS AVERAGE_MONTHLY_REPAYMENT 
+FROM  Data_Property24
+WHERE PROPERTY_PRICE>4000000
+GROUP BY PROVINCE;
+
 --39. How many properties per city have parking for 2 or more cars?
+
+SELECT CITY,COUNT(PROPERTY_ID) AS NUMBER_OF_PROPERTIES
+FROM  Data_Property24
+WHERE PARKING>=2
+GROUP BY CITY;
+
 --40. What is the average minimum gross monthly income per province for properties above R5,000,000?
+
+SELECT PROVINCE,AVG(Min_Gross_Monthly_Income) AS AVERAGE_Min_Gross_Monthly_Income
+FROM  Data_Property24
+WHERE PROPERTY_PRICE>5000000
+GROUP BY PROVINCE;
+
